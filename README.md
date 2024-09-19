@@ -1,4 +1,4 @@
-# 3D-Object-Viewer-Page
+# 3D-Object-Viewer
 
 ## Getting Started
 
@@ -23,7 +23,7 @@ This page allows you to visualize objects in 3D. In addition to being able to ch
 
 ## Portfolio Link
 
-[`https://www.diegolibonati.com.ar/#/project/2`](https://www.diegolibonati.com.ar/#/project/2)
+[`https://www.diegolibonati.com.ar/#/project/3D-Object-Viewer`](https://www.diegolibonati.com.ar/#/project/3D-Object-Viewer)
 
 ## Video
 
