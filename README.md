@@ -2,10 +2,10 @@
 
 ## Getting Started
 
-1. Clone the repository on your computer using: `git clone URL`.
-2. Go to the APP directory.
-3. Install dependencies using `yarn install`.
-4. Use `yarn run dev` to run in develop this project
+1. Clone the repository
+2. Join to the correct path of the clone
+3. Execute: `yarn install` or `npm install`
+4. Execute: `yarn dev` or `npm dev`
 
 ## Description
 
@@ -19,7 +19,27 @@ This page allows you to visualize objects in 3D. In addition to being able to ch
 
 ## Libraries used
 
-1. THREE JS
+#### Dependencies
+
+```
+"@types/jest": "^29.5.14"
+"@types/three": "^0.161.2"
+"three": "^0.148.0"
+```
+
+#### devDependencies
+
+```
+"@testing-library/dom": "^10.4.0"
+"@testing-library/jest-dom": "^6.6.3"
+"@testing-library/user-event": "^14.5.2"
+"jest": "^29.7.0"
+"jest-environment-jsdom": "^29.7.0"
+"ts-jest": "^29.2.5"
+"lil-gui": "^0.17.0"
+"typescript": "^5.3.3"
+"vite": "^4.0.4"
+```
 
 ## Portfolio Link
 
@@ -28,3 +48,8 @@ This page allows you to visualize objects in 3D. In addition to being able to ch
 ## Video
 
 https://www.youtube.com/watch?v=EYpagLf3rKw&ab_channel=Die
+
+## Testing
+
+1. Join to the correct path of the clone
+2. Execute: `yarn test` or `npm test`

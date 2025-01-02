@@ -1,76 +1,63 @@
 // Objects
+import * as THREE from "three";
 
-import { ObjectModel } from "../entities/entities";
+import { Object } from "../entities/entities";
 
-export const objects: ObjectModel[] = [
+export const objects: Object[] = [
   {
     name: "BoxGeometry",
-    params: [2, 2, 2],
-    model: null,
+    mesh: new THREE.Mesh(new THREE.BoxGeometry(2, 2, 2)),
   },
   {
     name: "ConeGeometry",
-    params: [2, 2, 16, 16],
-    model: null,
+    mesh: new THREE.Mesh(new THREE.ConeGeometry(2, 2, 16, 16)),
   },
   {
     name: "CapsuleGeometry",
-    params: [1, 1, 4, 8],
-    model: null,
+    mesh: new THREE.Mesh(new THREE.CapsuleGeometry(1, 1, 4, 8)),
   },
   {
     name: "CircleGeometry",
-    params: [1, 32],
-    model: null,
+    mesh: new THREE.Mesh(new THREE.CircleGeometry(1, 32)),
   },
   {
     name: "CylinderGeometry",
-    params: [2, 2, 1, 32],
-    model: null,
+    mesh: new THREE.Mesh(new THREE.CylinderGeometry(2, 2, 1, 32)),
   },
   {
     name: "DodecahedronGeometry",
-    params: [1, 0],
-    model: null,
+    mesh: new THREE.Mesh(new THREE.DodecahedronGeometry(1, 0)),
   },
   {
     name: "IcosahedronGeometry",
-    params: [1, 0],
-    model: null,
+    mesh: new THREE.Mesh(new THREE.IcosahedronGeometry(1, 0)),
   },
   {
     name: "OctahedronGeometry",
-    params: [1, 0],
-    model: null,
+    mesh: new THREE.Mesh(new THREE.OctahedronGeometry(1, 0)),
   },
   {
     name: "PlaneGeometry",
-    params: [1, 1],
-    model: null,
+    mesh: new THREE.Mesh(new THREE.PlaneGeometry(1, 1)),
   },
   {
     name: "RingGeometry",
-    params: [1, 1.5, 32],
-    model: null,
+    mesh: new THREE.Mesh(new THREE.RingGeometry(1, 1.5, 32)),
   },
   {
     name: "SphereGeometry",
-    params: [1, 16, 32],
-    model: null,
+    mesh: new THREE.Mesh(new THREE.SphereGeometry(1, 16, 32)),
   },
   {
     name: "TetrahedronGeometry",
-    params: [1, 0],
-    model: null,
+    mesh: new THREE.Mesh(new THREE.TetrahedronGeometry(1, 0)),
   },
   {
     name: "TorusGeometry",
-    params: [1, 0.2, 8, 33],
-    model: null,
+    mesh: new THREE.Mesh(new THREE.TorusGeometry(1, 0.2, 8, 33)),
   },
   {
     name: "TorusKnotGeometry",
-    params: [1, 0.2, 8, 33],
-    model: null,
+    mesh: new THREE.Mesh(new THREE.TorusKnotGeometry(1, 0.2, 8, 33)),
   },
 ];

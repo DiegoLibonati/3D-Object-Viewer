@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta
+      name="description"
+      content="Interactive object viewer using Three.js"
+    />
+    <title>3D Object Viewer</title>
+    <link rel="stylesheet" href="./src/style.css" />
+  </head>
+  <body>
+    <!-- Canvas para la visualización 3D -->
+    <canvas
+      class="viewer__canvas"
+      aria-label="Canvas for 3D visualization"
+    ></canvas>
+
+    <main>
+      <!-- Contenedor de controles -->
+      <section class="controls" aria-labelledby="controls__title">
+        <!-- Control izquierda -->
+        <article class="controls__control controls__control--left">
+          <h2 class="controls__label">Left</h2>
+          <img
+            src="./assets/arrow.png"
+            id="left"
+            alt="Left arrow"
+            class="controls__arrow-image"
+          />
+        </article>
+
+        <!-- Control derecha -->
+        <article class="controls__control controls__control--right">
+          <h2 class="controls__label">Right</h2>
+          <img
+            src="./assets/arrow.png"
+            id="right"
+            alt="Right arrow"
+            class="controls__arrow-image"
+          />
+        </article>
+      </section>
+
+      <!-- Contenedor de alertas -->
+      <section class="alert" aria-live="polite">
+        <article class="alert__wrapper">
+          <h2 class="alert__title"></h2>
+          <button class="alert__button" aria-label="Close alert">Close</button>
+        </article>
+      </section>
+
+      <!-- Formulario para subir archivos -->
+      <form class="upload">
+        <label for="upload__file" class="upload__label">Browse a Model</label>
+        <input
+          type="file"
+          id="upload__file"
+          class="upload__input"
+          hidden
+          accept=".glb,.gltf"
+        />
+      </form>
+    </main>
+    <script type="module" src="./src/index.ts" defer></script>
+  </body>
+</html>
