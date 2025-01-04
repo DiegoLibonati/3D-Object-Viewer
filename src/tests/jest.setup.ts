@@ -16,7 +16,17 @@ export const OFFICIAL_BODY = INITIAL_HTML.match(
 
 jest.mock("three/examples/jsm/loaders/GLTFLoader.js", () => {
   return {
-    GLTFLoader: jest.fn(),
+    GLTFLoader: jest.fn(() => ({
+      loadAsync: jest.fn().mockResolvedValue({
+        scene: {
+          children: [
+            {
+              isMesh: true,
+            },
+          ],
+        },
+      }),
+    })),
   };
 });
 

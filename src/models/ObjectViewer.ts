@@ -29,16 +29,19 @@ export class ObjectViewer {
 
   constructor(public canvas: HTMLCanvasElement) {
     this.scene = new THREE.Scene();
+
     this.camera = new THREE.PerspectiveCamera(
       45,
       this.sizes.width / this.sizes.height,
       1,
       100
     );
+
     this.renderer = new THREE.WebGLRenderer({
       canvas: canvas,
       antialias: true,
     });
+
     this.controls = new OrbitControls(this.camera, canvas);
 
     this.gui = new GUI();
