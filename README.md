@@ -49,6 +49,10 @@ This page allows you to visualize objects in 3D. In addition to being able to ch
 
 https://www.youtube.com/watch?v=EYpagLf3rKw&ab_channel=Die
 
+## Web
+
+[`https://3d-object-viewer-page.vercel.app/`](https://3d-object-viewer-page.vercel.app/)
+
 ## Testing
 
 1. Join to the correct path of the clone
