@@ -11,10 +11,10 @@ import { Object as ObjectOfViewer } from "../entities/entities";
 
 import { ObjectViewer } from "./ObjectViewer";
 
+import { OFFICIAL_BODY } from "../tests/jest.constants";
+
 import { getElements } from "../helpers/getElements";
 import { objects as defaultObjects } from "../constants/objects";
-
-import { OFFICIAL_BODY } from "../tests/jest.setup";
 
 beforeEach(() => {
   document.body.innerHTML = OFFICIAL_BODY;
