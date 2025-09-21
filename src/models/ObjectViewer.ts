@@ -5,11 +5,11 @@ import { Font, FontLoader } from "three/examples/jsm/loaders/FontLoader.js";
 import { TextGeometry } from "three/examples/jsm/geometries/TextGeometry.js";
 import { OrbitControls } from "three/examples/jsm/controls/OrbitControls.js";
 
-import { Object, Sizes } from "../entities/entities";
+import { Object, Sizes } from "@src/entities/entities";
 
-import { getElements } from "../helpers/getElements";
-import { ENVIROMENT_MAPS_TEXTURES } from "../constants/textures";
-import { objects } from "../constants/objects";
+import { getElements } from "@src/helpers/getElements";
+import { ENVIROMENT_MAPS_TEXTURES } from "@src/constants/textures";
+import { objects } from "@src/constants/objects";
 
 export class ObjectViewer {
   private scene: THREE.Scene;

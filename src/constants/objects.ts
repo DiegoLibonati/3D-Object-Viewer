@@ -1,7 +1,7 @@
 // Objects
 import * as THREE from "three";
 
-import { Object } from "../entities/entities";
+import { Object } from "@src/entities/entities";
 
 export const objects: Object[] = [
   {

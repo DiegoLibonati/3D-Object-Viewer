@@ -1,5 +1,5 @@
-import { ObjectViewer } from "./models/ObjectViewer";
-import { getElements } from "./helpers/getElements";
+import { ObjectViewer } from "@src/models/ObjectViewer";
+import { getElements } from "@src/helpers/getElements";
 
 const onInit = () => {
   const { canvas } = getElements();

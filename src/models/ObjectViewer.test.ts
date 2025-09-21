@@ -7,14 +7,14 @@ import { FontLoader } from "three/examples/jsm/loaders/FontLoader.js";
 import { TextGeometry } from "three/examples/jsm/geometries/TextGeometry.js";
 import { GUI } from "lil-gui";
 
-import { Object as ObjectOfViewer } from "../entities/entities";
+import { Object as ObjectOfViewer } from "@src/entities/entities";
 
-import { ObjectViewer } from "./ObjectViewer";
+import { ObjectViewer } from "@src/models/ObjectViewer";
 
-import { OFFICIAL_BODY } from "../../tests/jest.constants";
+import { OFFICIAL_BODY } from "@tests/jest.constants";
 
-import { getElements } from "../helpers/getElements";
-import { objects as defaultObjects } from "../constants/objects";
+import { getElements } from "@src/helpers/getElements";
+import { objects as defaultObjects } from "@src/constants/objects";
 
 beforeEach(() => {
   document.body.innerHTML = OFFICIAL_BODY;
