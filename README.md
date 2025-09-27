@@ -22,6 +22,7 @@ This page allows you to visualize objects in 3D. In addition to being able to ch
 1. Typescript
 2. CSS3
 3. HTML5
+4. Vite
 
 ## Libraries used
 
