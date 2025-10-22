@@ -1,10 +1,9 @@
-import { ObjectViewer } from "@src/models/ObjectViewer";
-import { getElements } from "@src/helpers/getElements";
+import { ObjectViewerPage } from "@src/pages/ObjectViewerPage/ObjectViewerPage";
 
 const onInit = () => {
-  const { canvas } = getElements();
-
-  new ObjectViewer(canvas);
+  const app = document.querySelector<HTMLDivElement>("#app")!;
+  const objectViewerPage = ObjectViewerPage();
+  app.appendChild(objectViewerPage);
 };
 
 document.addEventListener("DOMContentLoaded", onInit);

@@ -1,9 +1,8 @@
-// Objects
 import * as THREE from "three";
 
-import { Object } from "@src/entities/entities";
+import { Object } from "@src/entities/app";
 
-export const objects: Object[] = [
+const objects: Object[] = [
   {
     name: "BoxGeometry",
     mesh: new THREE.Mesh(new THREE.BoxGeometry(2, 2, 2)),
@@ -61,3 +60,5 @@ export const objects: Object[] = [
     mesh: new THREE.Mesh(new THREE.TorusKnotGeometry(1, 0.2, 8, 33)),
   },
 ];
+
+export default objects;

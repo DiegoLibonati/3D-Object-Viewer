@@ -7,14 +7,13 @@ import { FontLoader } from "three/examples/jsm/loaders/FontLoader.js";
 import { TextGeometry } from "three/examples/jsm/geometries/TextGeometry.js";
 import { GUI } from "lil-gui";
 
-import { Object as ObjectOfViewer } from "@src/entities/entities";
+import { Object as ObjectOfViewer } from "@src/entities/app";
 
-import { ObjectViewer } from "@src/models/ObjectViewer";
+import { ObjectViewer } from "@src/core/ObjectViewer";
+
+import defaultObjects from "@src/constants/objects";
 
 import { OFFICIAL_BODY } from "@tests/jest.constants";
-
-import { getElements } from "@src/helpers/getElements";
-import { objects as defaultObjects } from "@src/constants/objects";
 
 beforeEach(() => {
   document.body.innerHTML = OFFICIAL_BODY;
@@ -24,7 +23,7 @@ afterEach(() => {
   document.body.innerHTML = "";
 });
 
-describe("ObjectViewer", () => {
+describe("ObjectViewer.ts", () => {
   let camera: THREE.PerspectiveCamera;
   let scene: THREE.Scene;
   let controls: OrbitControls;
@@ -42,17 +41,10 @@ describe("ObjectViewer", () => {
   let objects: ObjectOfViewer[];
 
   beforeEach(() => {
-    const {
-      canvas: canvasElement,
-      modalText: modalTextElement,
-      modalContainer: modalContainerElement,
-      inputFile: inputFileElement,
-    } = getElements();
-
-    canvas = canvasElement;
-    modalText = modalTextElement;
-    modalContainer = modalContainerElement;
-    inputFile = inputFileElement;
+    canvas = document.querySelector<HTMLCanvasElement>(".viewer__canvas")!;
+    modalText = document.querySelector<HTMLHeadingElement>(".alert__title")!;
+    modalContainer = document.querySelector<HTMLElement>(".alert")!;
+    inputFile = document.querySelector<HTMLInputElement>(".upload__input")!;
 
     objectViewer = new ObjectViewer(canvas);
 

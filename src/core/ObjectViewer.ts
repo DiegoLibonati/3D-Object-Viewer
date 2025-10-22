@@ -5,11 +5,10 @@ import { Font, FontLoader } from "three/examples/jsm/loaders/FontLoader.js";
 import { TextGeometry } from "three/examples/jsm/geometries/TextGeometry.js";
 import { OrbitControls } from "three/examples/jsm/controls/OrbitControls.js";
 
-import { Object, Sizes } from "@src/entities/entities";
+import { Object, Sizes } from "@src/entities/app";
 
-import { getElements } from "@src/helpers/getElements";
-import { ENVIROMENT_MAPS_TEXTURES } from "@src/constants/textures";
-import { objects } from "@src/constants/objects";
+import textures from "@src/constants/textures";
+import objects from "@src/constants/objects";
 
 export class ObjectViewer {
   private scene: THREE.Scene;
@@ -78,7 +77,10 @@ export class ObjectViewer {
   }
 
   private addEventListeners() {
-    const { inputFile, buttonModal } = getElements();
+    const inputFile =
+      document.querySelector<HTMLInputElement>(".upload__input");
+    const buttonModal =
+      document.querySelector<HTMLButtonElement>(".alert__button");
 
     window.addEventListener("resize", this.onWindowResize.bind(this));
     window.addEventListener("keydown", this.onKeyDown.bind(this));
@@ -94,7 +96,7 @@ export class ObjectViewer {
   private configScene() {
     const cubeTextureLoader = new THREE.CubeTextureLoader();
 
-    this.scene.background = cubeTextureLoader.load(ENVIROMENT_MAPS_TEXTURES);
+    this.scene.background = cubeTextureLoader.load(textures);
   }
 
   private configControls() {
@@ -103,12 +105,14 @@ export class ObjectViewer {
 
   private loadFont(callback: () => void) {
     const fontLoader = new FontLoader();
-    const fontPath = "./fonts/helvetiker_regular.typeface.json";
 
-    fontLoader.load(fontPath, (font: Font) => {
-      this.font = font;
-      callback();
-    });
+    fontLoader.load(
+      "./fonts/helvetiker_regular.typeface.json",
+      (font: Font) => {
+        this.font = font;
+        callback();
+      }
+    );
   }
 
   private render() {
@@ -127,7 +131,7 @@ export class ObjectViewer {
 
     // Material
     const material = new THREE.MeshStandardMaterial({
-      envMap: cubeTextureLoader.load(ENVIROMENT_MAPS_TEXTURES),
+      envMap: cubeTextureLoader.load(textures),
       metalness: 0.766,
       roughness: 0.041,
       color: "#ffffff",
@@ -277,16 +281,18 @@ export class ObjectViewer {
   }
 
   private onOpenModal(message: string) {
-    const { modalText, modalContainer } = getElements();
+    const modalContainer = document.querySelector<HTMLElement>(".alert");
+    const modalText =
+      document.querySelector<HTMLHeadingElement>(".alert__title");
 
-    modalText.innerHTML = message;
-    modalContainer.style.display = "flex";
+    modalText!.innerHTML = message;
+    modalContainer!.style.display = "flex";
   }
 
   private onCloseModal() {
-    const { modalContainer } = getElements();
+    const modalContainer = document.querySelector<HTMLElement>(".alert");
 
-    modalContainer.style.display = "none";
+    modalContainer!.style.display = "none";
   }
 
   private updateScene() {

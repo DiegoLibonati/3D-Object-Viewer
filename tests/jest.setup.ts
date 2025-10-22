@@ -1,7 +1,5 @@
 import "@testing-library/jest-dom";
 
-// Mocks
-
 jest.mock("three/examples/jsm/loaders/GLTFLoader.js", () => {
   return {
     GLTFLoader: jest.fn(() => ({

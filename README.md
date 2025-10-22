@@ -6,12 +6,21 @@ This project was created primarily for **educational and learning purposes**.
 While it is well-structured and could technically be used in production, it is **not intended for commercialization**.  
 The main goal is to explore and demonstrate best practices, patterns, and technologies in software development.
 
-## Getting Started
+## Getting Started without Docker
 
 1. Clone the repository
 2. Join to the correct path of the clone
 3. Execute: `yarn install` or `npm install`
 4. Execute: `yarn run dev` or `npm run dev`
+
+## Getting Started with Docker
+
+1. Clone the repository with `git clone "repository link"`
+2. Execute: `npm install` or `yarn install` in the terminal
+3. Execute: `docker-compose -f dev.docker-compose.yml build --no-cache` in the terminal
+4. Once built, you must execute the command: `docker-compose -f dev.docker-compose.yml up --force-recreate` in the terminal
+
+NOTE: You have to be standing in the folder containing the: `dev.docker-compose.yml` and you need to install `Docker Desktop` if you are in Windows.
 
 ## Description
 
@@ -23,6 +32,9 @@ This page allows you to visualize objects in 3D. In addition to being able to ch
 2. CSS3
 3. HTML5
 4. Vite
+5. Nginx
+6. Docker
+7. Three JS
 
 ## Libraries used
 
@@ -56,10 +68,6 @@ This page allows you to visualize objects in 3D. In addition to being able to ch
 ## Video
 
 https://www.youtube.com/watch?v=EYpagLf3rKw&ab_channel=Die
-
-## Web
-
-[`https://3d-object-viewer-page.vercel.app/`](https://3d-object-viewer-page.vercel.app/)
 
 ## Testing
 

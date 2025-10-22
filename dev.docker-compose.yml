@@ -1,0 +1,18 @@
+services:
+  object-viewer-client:
+    build:
+      context: ./
+      dockerfile: Dockerfile.development
+    restart: always
+    volumes:
+      - .:/home/app
+      - /home/app/node_modules
+    ports:
+      - 5173:5173
+    networks:
+      - object-viewer-net
+    tty: true
+
+
+networks:
+  object-viewer-net:

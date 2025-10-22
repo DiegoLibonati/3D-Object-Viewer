@@ -1,0 +1,14 @@
+services:
+  object-viewer-client:
+    build:
+      context: ./
+      dockerfile: Dockerfile.production
+    restart: always
+    ports:
+      - 5173:80
+    networks:
+      - object-viewer-net
+
+
+networks:
+  object-viewer-net:

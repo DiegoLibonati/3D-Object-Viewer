@@ -1,0 +1,32 @@
+.control {
+  display: flex;
+  align-items: center;
+  flex-direction: column;
+}
+
+.control--left {
+  margin-right: 1.563rem;
+}
+
+.control__label {
+  display: none;
+}
+
+.control__image {
+  width: 2.5rem;
+  height: auto;
+  object-fit: cover;
+  transition: ease all 0.3s;
+}
+
+@media (min-width: 1024px) {
+  .control__label {
+    display: block;
+    font-size: 1.25rem;
+    color: var(--white-color);
+  }
+
+  #right {
+    transform: rotate(180deg);
+  }
+}
