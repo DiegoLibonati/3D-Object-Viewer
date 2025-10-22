@@ -4,6 +4,11 @@
   flex-direction: column;
 }
 
+.control--left,
+.control--right {
+  display: none;
+}
+
 .control--left {
   margin-right: 1.563rem;
 }
@@ -20,6 +25,11 @@
 }
 
 @media (min-width: 1024px) {
+  .control--left,
+  .control--right {
+    display: flex;
+  }
+
   .control__label {
     display: block;
     font-size: 1.25rem;
