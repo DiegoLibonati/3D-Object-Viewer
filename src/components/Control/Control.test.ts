@@ -67,8 +67,9 @@ describe("Control.ts", () => {
 
       renderComponent(props);
 
-      const label = document.querySelector(".control__label");
-      const image = document.querySelector(".control__image");
+      const label =
+        document.querySelector<HTMLHeadingElement>(".control__label");
+      const image = document.querySelector<HTMLImageElement>(".control__image");
 
       expect(label).toBeInTheDocument();
       expect(image).toBeInTheDocument();
@@ -124,12 +125,11 @@ describe("Control.ts", () => {
 
       renderComponent(props);
 
-      const label = document.querySelector(
-        ".control__label"
-      ) as HTMLHeadingElement;
+      const label =
+        document.querySelector<HTMLHeadingElement>(".control__label");
 
       expect(label).toBeInstanceOf(HTMLHeadingElement);
-      expect(label.tagName).toBe("H2");
+      expect(label!.tagName).toBe("H2");
     });
   });
 
@@ -142,7 +142,7 @@ describe("Control.ts", () => {
 
       renderComponent(props);
 
-      const image = document.getElementById("jump");
+      const image = document.querySelector<HTMLImageElement>("#jump");
 
       expect(image).toBeInTheDocument();
     });
@@ -155,7 +155,7 @@ describe("Control.ts", () => {
 
       renderComponent(props);
 
-      const image = document.getElementById("uparrow");
+      const image = document.querySelector<HTMLImageElement>("#uparrow");
 
       expect(image).toBeInTheDocument();
     });
@@ -316,7 +316,7 @@ describe("Control.ts", () => {
 
       const leftLabel = screen.getByText("Left");
       const rightLabel = screen.getByText("Right");
-      const allControls = document.querySelectorAll(".control");
+      const allControls = document.querySelectorAll<HTMLDivElement>(".control");
 
       expect(leftLabel).toBeInTheDocument();
       expect(rightLabel).toBeInTheDocument();
@@ -337,15 +337,17 @@ describe("Control.ts", () => {
       const { container: control1 } = renderComponent(props1);
       const { container: control2 } = renderComponent(props2);
 
-      const label1 = control1.querySelector(".control__label");
-      const label2 = control2.querySelector(".control__label");
-      const image1 = control1.querySelector("img") as HTMLImageElement;
-      const image2 = control2.querySelector("img") as HTMLImageElement;
+      const label1 =
+        control1.querySelector<HTMLHeadingElement>(".control__label");
+      const label2 =
+        control2.querySelector<HTMLHeadingElement>(".control__label");
+      const image1 = control1.querySelector<HTMLImageElement>("img");
+      const image2 = control2.querySelector<HTMLImageElement>("img");
 
       expect(label1?.textContent).toBe("Control A");
       expect(label2?.textContent).toBe("Control B");
-      expect(image1.src).toContain("image1.png");
-      expect(image2.src).toContain("image2.png");
+      expect(image1!.src).toContain("image1.png");
+      expect(image2!.src).toContain("image2.png");
     });
 
     test("It should have unique ids for each control image", () => {
@@ -362,8 +364,8 @@ describe("Control.ts", () => {
       renderComponent(props1);
       renderComponent(props2);
 
-      const image1 = document.getElementById("first");
-      const image2 = document.getElementById("second");
+      const image1 = document.querySelector<HTMLImageElement>("#first");
+      const image2 = document.querySelector<HTMLImageElement>("#second");
 
       expect(image1).toBeInTheDocument();
       expect(image2).toBeInTheDocument();
@@ -380,7 +382,8 @@ describe("Control.ts", () => {
 
       renderComponent(props);
 
-      const label = document.querySelector(".control__label");
+      const label =
+        document.querySelector<HTMLHeadingElement>(".control__label");
 
       expect(label).toBeInTheDocument();
       expect(label?.textContent).toBe("");
@@ -394,7 +397,8 @@ describe("Control.ts", () => {
 
       renderComponent(props);
 
-      const label = document.querySelector(".control__label");
+      const label =
+        document.querySelector<HTMLHeadingElement>(".control__label");
 
       expect(label?.textContent).toContain("Control & Button");
     });
@@ -422,8 +426,10 @@ describe("Control.ts", () => {
 
       const { container } = renderComponent(props);
 
-      const label = container.querySelector(".control__label");
-      const image = container.querySelector(".control__image");
+      const label =
+        container.querySelector<HTMLHeadingElement>(".control__label");
+      const image =
+        container.querySelector<HTMLImageElement>(".control__image");
 
       expect(label).toBeInTheDocument();
       expect(image).toBeInTheDocument();
@@ -437,8 +443,12 @@ describe("Control.ts", () => {
 
       const { container } = renderComponent(props);
 
-      expect(container.querySelector(".control__label")).toBeInTheDocument();
-      expect(container.querySelector(".control__image")).toBeInTheDocument();
+      expect(
+        container.querySelector<HTMLHeadingElement>(".control__label")
+      ).toBeInTheDocument();
+      expect(
+        container.querySelector<HTMLImageElement>(".control__image")
+      ).toBeInTheDocument();
     });
   });
 
