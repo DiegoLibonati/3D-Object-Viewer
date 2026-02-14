@@ -33,7 +33,7 @@
   .control__label {
     display: block;
     font-size: 1.25rem;
-    color: var(--white-color);
+    color: var(--color-white);
   }
 
   #right {

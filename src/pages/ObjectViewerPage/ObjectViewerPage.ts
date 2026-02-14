@@ -1,16 +1,18 @@
-import { Control } from "@src/components/Control/Control";
+import type { Page } from "@/types/pages";
 
-import { ObjectViewer } from "@src/core/ObjectViewer";
+import { Control } from "@/components/Control/Control";
 
-import assets from "@src/assets/export";
+import { ObjectViewer } from "@/core/ObjectViewer";
 
-import "@src/pages/ObjectViewerPage/ObjectViewerPage.css";
+import assets from "@/assets/export";
 
-export const ObjectViewerPage = (): HTMLDivElement => {
-  const divRoot = document.createElement("div");
-  divRoot.className = "object-viewer-page";
+import "@/pages/ObjectViewerPage/ObjectViewerPage.css";
 
-  divRoot.innerHTML = `
+export const ObjectViewerPage = (): Page => {
+  const main = document.createElement("main") as Page;
+  main.className = "object-viewer-page";
+
+  main.innerHTML = `
     <canvas
         class="viewer__canvas"
         aria-label="Canvas for 3D visualization"
@@ -41,23 +43,27 @@ export const ObjectViewerPage = (): HTMLDivElement => {
     </div>
   `;
 
-  const canvas = divRoot.querySelector<HTMLCanvasElement>(".viewer__canvas");
-  const controls = divRoot.querySelector<HTMLDivElement>(".controls");
+  const canvas = main.querySelector<HTMLCanvasElement>(".viewer__canvas")!;
+  const controls = main.querySelector<HTMLDivElement>(".controls");
 
   const controlArrowLeft = Control({
     label: "Left",
-    srcImg: assets.images.Arrow,
+    srcImg: assets.images.ArrowPng,
     className: "control--left",
   });
   const controlArrowRight = Control({
     label: "Right",
-    srcImg: assets.images.Arrow,
+    srcImg: assets.images.ArrowPng,
     className: "control--right",
   });
 
   controls?.append(controlArrowLeft, controlArrowRight);
 
-  new ObjectViewer(canvas!);
+  const viewer = new ObjectViewer(canvas, main);
 
-  return divRoot;
+  main.cleanup = (): void => {
+    viewer.dispose();
+  };
+
+  return main;
 };

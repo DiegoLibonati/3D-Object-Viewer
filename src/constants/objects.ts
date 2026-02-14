@@ -1,6 +1,6 @@
 import * as THREE from "three";
 
-import { Object } from "@src/entities/app";
+import type { Object } from "@/types/app";
 
 const objects: Object[] = [
   {

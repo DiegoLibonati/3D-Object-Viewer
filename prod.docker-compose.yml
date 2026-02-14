@@ -9,6 +9,5 @@ services:
     networks:
       - object-viewer-net
 
-
 networks:
   object-viewer-net:

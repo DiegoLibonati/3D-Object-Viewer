@@ -1,14 +1,16 @@
 import * as THREE from "three";
 import { GUI } from "lil-gui";
 import { GLTFLoader } from "three/examples/jsm/loaders/GLTFLoader.js";
-import { Font, FontLoader } from "three/examples/jsm/loaders/FontLoader.js";
+import type { Font } from "three/examples/jsm/loaders/FontLoader.js";
+import { FontLoader } from "three/examples/jsm/loaders/FontLoader.js";
 import { TextGeometry } from "three/examples/jsm/geometries/TextGeometry.js";
 import { OrbitControls } from "three/examples/jsm/controls/OrbitControls.js";
 
-import { Object, Sizes } from "@src/entities/app";
+import type { Object, Sizes } from "@/types/app";
+import type { Page } from "@/types/pages";
 
-import textures from "@src/constants/textures";
-import objects from "@src/constants/objects";
+import textures from "@/constants/textures";
+import objects from "@/constants/objects";
 
 export class ObjectViewer {
   private scene: THREE.Scene;
@@ -24,9 +26,22 @@ export class ObjectViewer {
     height: window.innerHeight,
   };
   private objects: Object[] = [...objects];
-  private currentObject: Object = this.objects[0];
+  private currentObject: Object = this.objects[0]!;
 
-  constructor(public canvas: HTMLCanvasElement) {
+  private boundOnWindowResize: (event: UIEvent) => void;
+  private boundOnKeyDown: (event: KeyboardEvent) => void;
+  private boundOnFileChange: (event: Event) => void;
+  private boundOnCloseModal: () => void;
+
+  private animationFrameId: number | null = null;
+
+  private inputFile: HTMLInputElement | null = null;
+  private buttonModal: HTMLButtonElement | null = null;
+
+  constructor(
+    public canvas: HTMLCanvasElement,
+    private container: Page
+  ) {
     this.scene = new THREE.Scene();
 
     this.camera = new THREE.PerspectiveCamera(
@@ -45,6 +60,13 @@ export class ObjectViewer {
 
     this.gui = new GUI();
 
+    this.boundOnWindowResize = this.onWindowResize.bind(this);
+    this.boundOnKeyDown = this.onKeyDown.bind(this);
+    this.boundOnFileChange = (event: Event): void => {
+      void this.onFileChange(event);
+    };
+    this.boundOnCloseModal = this.onCloseModal.bind(this);
+
     this.addCamera();
     this.addLights();
     this.addEventListeners();
@@ -53,20 +75,19 @@ export class ObjectViewer {
     this.configControls();
 
     this.loadFont(() => {
-      if (this.currentObject) this.renderCurrentObject();
+      this.renderCurrentObject();
     });
 
     this.render();
     this.animate();
   }
 
-  private addCamera() {
+  private addCamera(): void {
     this.camera.position.z = 10;
-
     this.scene.add(this.camera);
   }
 
-  private addLights() {
+  private addLights(): void {
     const ambientLight = new THREE.AmbientLight("#FFFFFF", 0.5);
     const pointLight = new THREE.PointLight("#FFFFFF", 0.5);
 
@@ -76,34 +97,32 @@ export class ObjectViewer {
     this.scene.add(ambientLight);
   }
 
-  private addEventListeners() {
-    const inputFile =
-      document.querySelector<HTMLInputElement>(".upload__input");
-    const buttonModal =
-      document.querySelector<HTMLButtonElement>(".alert__button");
+  private addEventListeners(): void {
+    this.inputFile =
+      this.container.querySelector<HTMLInputElement>(".upload__input");
+    this.buttonModal =
+      this.container.querySelector<HTMLButtonElement>(".alert__button");
 
-    window.addEventListener("resize", this.onWindowResize.bind(this));
-    window.addEventListener("keydown", this.onKeyDown.bind(this));
-
-    inputFile?.addEventListener("change", this.onFileChange.bind(this));
-    buttonModal?.addEventListener("click", this.onCloseModal.bind(this));
+    window.addEventListener("resize", this.boundOnWindowResize);
+    window.addEventListener("keydown", this.boundOnKeyDown);
+    this.inputFile?.addEventListener("change", this.boundOnFileChange);
+    this.buttonModal?.addEventListener("click", this.boundOnCloseModal);
   }
 
-  private addObject(object: Object) {
+  private addObject(object: Object): void {
     this.objects.push(object);
   }
 
-  private configScene() {
+  private configScene(): void {
     const cubeTextureLoader = new THREE.CubeTextureLoader();
-
     this.scene.background = cubeTextureLoader.load(textures);
   }
 
-  private configControls() {
+  private configControls(): void {
     this.controls.enableDamping = true;
   }
 
-  private loadFont(callback: () => void) {
+  private loadFont(callback: () => void): void {
     const fontLoader = new FontLoader();
 
     fontLoader.load(
@@ -115,21 +134,18 @@ export class ObjectViewer {
     );
   }
 
-  private render() {
+  private render(): void {
     this.renderer.setSize(this.sizes.width, this.sizes.height);
     this.renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2));
-
     this.renderer.render(this.scene, this.camera);
   }
 
-  private renderCurrentObject() {
+  private renderCurrentObject(): void {
     const cubeTextureLoader = new THREE.CubeTextureLoader();
 
-    // Gui
     const folderModel = this.gui.addFolder("Model");
     const folderText = this.gui.addFolder("Text");
 
-    // Material
     const material = new THREE.MeshStandardMaterial({
       envMap: cubeTextureLoader.load(textures),
       metalness: 0.766,
@@ -137,21 +153,22 @@ export class ObjectViewer {
       color: "#ffffff",
     });
 
-    // Model
     const meshModel = this.currentObject.mesh;
+
     meshModel.traverse((child) => {
       if (child instanceof THREE.Mesh) {
         child.material = material;
+
         if (
           !folderModel.controllers.find(
             (controller) => controller.property === "color"
           )
-        )
-          folderModel.addColor(child.material, "color").name("Color");
+        ) {
+          folderModel.addColor(material, "color").name("Color");
+        }
       }
     });
 
-    // Text
     const textGeometry = new TextGeometry(this.currentObject.name, {
       font: this.font!,
       size: 0.5,
@@ -210,7 +227,7 @@ export class ObjectViewer {
     this.scene.add(meshText);
   }
 
-  private onWindowResize() {
+  private onWindowResize(): void {
     this.sizes.width = window.innerWidth;
     this.sizes.height = window.innerHeight;
 
@@ -221,7 +238,7 @@ export class ObjectViewer {
     this.renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2));
   }
 
-  private onKeyDown(event: KeyboardEvent) {
+  private onKeyDown(event: KeyboardEvent): void {
     const validKeys = ["ArrowRight", "ArrowLeft"];
     const { key } = event;
 
@@ -233,8 +250,8 @@ export class ObjectViewer {
         const nextIndex = indexOfCurrentObject + 1;
 
         if (nextIndex >= this.objects.length)
-          this.currentObject = this.objects[0];
-        else this.currentObject = this.objects[nextIndex];
+          this.currentObject = this.objects[0]!;
+        else this.currentObject = this.objects[nextIndex]!;
 
         this.updateScene();
         break;
@@ -244,8 +261,8 @@ export class ObjectViewer {
         const prevIndex = indexOfCurrentObject - 1;
 
         if (prevIndex < 0)
-          this.currentObject = this.objects[this.objects.length - 1];
-        else this.currentObject = this.objects[prevIndex];
+          this.currentObject = this.objects[this.objects.length - 1]!;
+        else this.currentObject = this.objects[prevIndex]!;
 
         this.updateScene();
         break;
@@ -255,9 +272,9 @@ export class ObjectViewer {
     }
   }
 
-  private async onFileChange(event: Event) {
+  private async onFileChange(event: Event): Promise<void> {
     const input = event.target as HTMLInputElement;
-    const file = input?.files?.[0];
+    const file = input.files?.[0];
 
     if (!file) return;
 
@@ -266,36 +283,39 @@ export class ObjectViewer {
 
     try {
       const gltf = await loader.loadAsync(url);
+      const sceneChild = gltf.scene.children[0];
+
       this.addObject({
         name: file.name,
-        mesh: gltf.scene.children[0] as THREE.Mesh,
+        mesh: sceneChild as THREE.Mesh,
       });
       this.onOpenModal(
         `Your model ${file.name} was added. Use the arrows of your keyboard to find your custom model.`
       );
       this.updateScene();
-    } catch (error) {
-      console.error("Error loading model:", error);
-      this.onOpenModal(`Error to load this class of model`);
+
+      URL.revokeObjectURL(url);
+    } catch {
+      this.onOpenModal(`Error loading model. Please try a different file.`);
+      URL.revokeObjectURL(url);
     }
   }
 
-  private onOpenModal(message: string) {
-    const modalContainer = document.querySelector<HTMLElement>(".alert");
+  private onOpenModal(message: string): void {
+    const modalContainer = this.container.querySelector<HTMLElement>(".alert");
     const modalText =
-      document.querySelector<HTMLHeadingElement>(".alert__title");
+      this.container.querySelector<HTMLHeadingElement>(".alert__title");
 
-    modalText!.innerHTML = message;
-    modalContainer!.style.display = "flex";
+    if (modalText) modalText.innerHTML = message;
+    if (modalContainer) modalContainer.style.display = "flex";
   }
 
-  private onCloseModal() {
-    const modalContainer = document.querySelector<HTMLElement>(".alert");
-
-    modalContainer!.style.display = "none";
+  private onCloseModal(): void {
+    const modalContainer = this.container.querySelector<HTMLElement>(".alert");
+    if (modalContainer) modalContainer.style.display = "none";
   }
 
-  private updateScene() {
+  private updateScene(): void {
     this.scene.clear();
 
     this.gui.destroy();
@@ -305,9 +325,61 @@ export class ObjectViewer {
     this.renderCurrentObject();
   }
 
-  private animate() {
+  private animate(): void {
     this.controls.update();
     this.renderer.render(this.scene, this.camera);
-    requestAnimationFrame(this.animate.bind(this));
+
+    this.animationFrameId = requestAnimationFrame(this.animate.bind(this));
+  }
+
+  public dispose(): void {
+    if (this.animationFrameId !== null) {
+      cancelAnimationFrame(this.animationFrameId);
+      this.animationFrameId = null;
+    }
+
+    window.removeEventListener("resize", this.boundOnWindowResize);
+    window.removeEventListener("keydown", this.boundOnKeyDown);
+    if (this.inputFile) {
+      this.inputFile.removeEventListener("change", this.boundOnFileChange);
+    }
+    if (this.buttonModal) {
+      this.buttonModal.removeEventListener("click", this.boundOnCloseModal);
+    }
+
+    this.gui.destroy();
+    this.controls.dispose();
+
+    this.scene.traverse((object) => {
+      if (!(object instanceof THREE.Mesh)) return;
+
+      const geometry = object.geometry as THREE.BufferGeometry | undefined;
+      if (geometry && "dispose" in geometry) {
+        geometry.dispose();
+      }
+
+      const material = object.material as
+        | THREE.Material
+        | THREE.Material[]
+        | undefined;
+
+      if (material) {
+        if (Array.isArray(material)) {
+          material.forEach((mat) => {
+            if ("dispose" in mat && typeof mat.dispose === "function") {
+              mat.dispose();
+            }
+          });
+        } else {
+          if ("dispose" in material && typeof material.dispose === "function") {
+            material.dispose();
+          }
+        }
+      }
+    });
+
+    this.renderer.dispose();
+    this.scene.clear();
+    this.objects = [];
   }
 }

@@ -1,12 +1,13 @@
-import { ControlProps } from "@src/entities/props";
+import type { ControlProps } from "@/types/props";
+import type { ControlComponent } from "@/types/components";
 
-import "@src/components/Control/Control.css";
+import "@/components/Control/Control.css";
 
 export const Control = ({
   srcImg,
   label,
   className,
-}: ControlProps): HTMLDivElement => {
+}: ControlProps): ControlComponent => {
   const divRoot = document.createElement("div");
   divRoot.className = `control ${className ?? ""} `;
 

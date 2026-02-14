@@ -13,6 +13,5 @@ services:
       - object-viewer-net
     tty: true
 
-
 networks:
   object-viewer-net:

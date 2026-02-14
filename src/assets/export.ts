@@ -1,8 +1,8 @@
-import Arrow from "@src/assets/images/arrow.png";
+import ArrowPng from "@/assets/images/arrow.png";
 
 const assets = {
   images: {
-    Arrow: Arrow,
+    ArrowPng: ArrowPng,
   },
 };
 
