@@ -62,7 +62,7 @@ This page allows you to visualize objects in 3D. In addition to being able to ch
 "globals": "^17.3.0"
 "husky": "^9.1.7"
 "jest": "^29.7.0"
-"jest-environment-jsdom": "^29.7.0"
+"jest-environment-jsdom": "^30.2.0"
 "lint-staged": "^16.2.7"
 "prettier": "^3.8.1"
 "ts-jest": "^29.2.5"
@@ -88,6 +88,16 @@ For coverage report:
 
 ```bash
 npm run test:coverage
+```
+
+## Security
+
+### npm audit
+
+Check for vulnerabilities in dependencies:
+
+```bash
+npm audit
 ```
 
 ## Known Issues
