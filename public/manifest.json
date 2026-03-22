@@ -1,7 +1,7 @@
 {
-  "name": "Template Vite Vanilla TS",
-  "short_name": "Template",
-  "description": "Personal template for carrying out a project with Vite Vanilla and TypeScript.",
+  "name": "3D Object Viewer",
+  "short_name": "3D Object Viewer",
+  "description": "This page allows you to visualize objects in 3D. In addition to being able to change different properties live through a menu. You can also import models as gltf or glb to visualize them and change their properties. These properties are the position on the canvas (x,y,z), the scale: width, height or depth. You can also hide the title, change the color, metallicity and roughness. It is a 100% responsive page",
   "start_url": "/",
   "display": "standalone",
   "background_color": "#ffffff",
