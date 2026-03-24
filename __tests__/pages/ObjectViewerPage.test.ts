@@ -33,7 +33,7 @@ describe("ObjectViewerPage", () => {
     const canvas = document.querySelector<HTMLCanvasElement>(".viewer__canvas");
     expect(canvas).toBeInTheDocument();
     expect(canvas?.tagName).toBe("CANVAS");
-    expect(canvas).toHaveAttribute("aria-label", "Canvas for 3D visualization");
+    expect(canvas).toHaveAttribute("aria-label", "3D object viewer");
   });
 
   it("should render the controls container", () => {
@@ -41,7 +41,11 @@ describe("ObjectViewerPage", () => {
 
     const controls = document.querySelector<HTMLDivElement>(".controls");
     expect(controls).toBeInTheDocument();
-    expect(controls).toHaveAttribute("aria-labelledby", "controls__title");
+    expect(controls).toHaveAttribute("role", "group");
+    expect(controls).toHaveAttribute(
+      "aria-label",
+      "Object navigation controls"
+    );
   });
 
   it("should render left control component", () => {
@@ -76,10 +80,12 @@ describe("ObjectViewerPage", () => {
       document.querySelector<HTMLDivElement>(".alert__wrapper");
     const alertTitle =
       document.querySelector<HTMLHeadingElement>(".alert__title");
-    const alertButton = screen.getByRole("button", { name: "Close alert" });
+    const alertButton = screen.getByRole("button", { name: "Close dialog" });
 
     expect(alert).toBeInTheDocument();
-    expect(alert).toHaveAttribute("aria-live", "polite");
+    expect(alert).toHaveAttribute("role", "alertdialog");
+    expect(alert).toHaveAttribute("aria-modal", "true");
+    expect(alert).toHaveAttribute("aria-labelledby", "alert-title");
     expect(alertWrapper).toBeInTheDocument();
     expect(alertTitle).toBeInTheDocument();
     expect(alertButton).toBeInTheDocument();

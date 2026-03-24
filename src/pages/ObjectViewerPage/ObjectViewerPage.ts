@@ -15,21 +15,21 @@ export const ObjectViewerPage = (): Page => {
   main.innerHTML = `
     <canvas
         class="viewer__canvas"
-        aria-label="Canvas for 3D visualization"
+        aria-label="3D object viewer"
     ></canvas>
 
     <div>
 
-        <div class="controls" aria-labelledby="controls__title"></div>
+        <div class="controls" role="group" aria-label="Object navigation controls"></div>
 
-        <div class="alert" aria-live="polite">
+        <div class="alert" role="alertdialog" aria-modal="true" aria-labelledby="alert-title">
             <div class="alert__wrapper">
-                <h2 class="alert__title"></h2>
-                <button class="alert__button" aria-label="Close alert">Close</button>
+                <h2 class="alert__title" id="alert-title"></h2>
+                <button class="alert__button" aria-label="Close dialog">Close</button>
             </div>
         </div>
 
-        <form class="upload">
+        <form class="upload" aria-label="Upload 3D model">
             <label for="upload__file" class="upload__label">Browse a Model</label>
             <input
                 type="file"
