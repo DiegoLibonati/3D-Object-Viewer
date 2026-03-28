@@ -107,7 +107,7 @@ describe("ObjectViewer", () => {
   it("should open modal with message", () => {
     objectViewer = new ObjectViewer(canvas, container);
 
-    const modalContainer = container.querySelector<HTMLElement>(".alert");
+    const modalContainer = container.querySelector<HTMLDivElement>(".alert");
     const modalText =
       container.querySelector<HTMLHeadingElement>(".alert__title");
 
@@ -119,7 +119,7 @@ describe("ObjectViewer", () => {
   it("should close modal on button click", () => {
     objectViewer = new ObjectViewer(canvas, container);
 
-    const modalContainer = container.querySelector<HTMLElement>(".alert");
+    const modalContainer = container.querySelector<HTMLDivElement>(".alert");
     const buttonModal =
       container.querySelector<HTMLButtonElement>(".alert__button");
 

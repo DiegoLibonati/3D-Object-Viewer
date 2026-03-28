@@ -302,7 +302,8 @@ export class ObjectViewer {
   }
 
   private onOpenModal(message: string): void {
-    const modalContainer = this.container.querySelector<HTMLElement>(".alert");
+    const modalContainer =
+      this.container.querySelector<HTMLDivElement>(".alert");
     const modalText =
       this.container.querySelector<HTMLHeadingElement>(".alert__title");
 
@@ -311,7 +312,8 @@ export class ObjectViewer {
   }
 
   private onCloseModal(): void {
-    const modalContainer = this.container.querySelector<HTMLElement>(".alert");
+    const modalContainer =
+      this.container.querySelector<HTMLDivElement>(".alert");
     if (modalContainer) modalContainer.style.display = "none";
   }
 
