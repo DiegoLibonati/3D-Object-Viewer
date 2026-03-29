@@ -1,6 +1,6 @@
 import type { Page } from "@/types/pages";
 
-import { Control } from "@/components/Control/Control";
+import Control from "@/components/Control/Control";
 
 import { ObjectViewer } from "@/core/ObjectViewer";
 
@@ -8,7 +8,7 @@ import assets from "@/assets/export";
 
 import "@/pages/ObjectViewerPage/ObjectViewerPage.css";
 
-export const ObjectViewerPage = (): Page => {
+const ObjectViewerPage = (): Page => {
   const main = document.createElement("main") as Page;
   main.className = "object-viewer-page";
 
@@ -67,3 +67,5 @@ export const ObjectViewerPage = (): Page => {
 
   return main;
 };
+
+export default ObjectViewerPage;

@@ -3,7 +3,7 @@ import type { ControlComponent } from "@/types/components";
 
 import "@/components/Control/Control.css";
 
-export const Control = ({
+const Control = ({
   srcImg,
   label,
   className,
@@ -23,3 +23,5 @@ export const Control = ({
 
   return divRoot;
 };
+
+export default Control;

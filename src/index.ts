@@ -1,5 +1,5 @@
 import "@/index.css";
-import { ObjectViewerPage } from "@/pages/ObjectViewerPage/ObjectViewerPage";
+import ObjectViewerPage from "@/pages/ObjectViewerPage/ObjectViewerPage";
 
 const onInit = (): void => {
   const app = document.querySelector<HTMLDivElement>("#app");

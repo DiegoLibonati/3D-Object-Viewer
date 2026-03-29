@@ -1,7 +1,7 @@
 import { screen } from "@testing-library/dom";
 import type { Page } from "@/types/pages";
 
-import { ObjectViewerPage } from "@/pages/ObjectViewerPage/ObjectViewerPage";
+import ObjectViewerPage from "@/pages/ObjectViewerPage/ObjectViewerPage";
 
 import { ObjectViewer } from "@/core/ObjectViewer";
 

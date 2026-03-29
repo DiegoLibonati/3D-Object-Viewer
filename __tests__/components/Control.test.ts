@@ -3,7 +3,7 @@ import { screen } from "@testing-library/dom";
 import type { ControlProps } from "@/types/props";
 import type { ControlComponent } from "@/types/components";
 
-import { Control } from "@/components/Control/Control";
+import Control from "@/components/Control/Control";
 
 const renderComponent = (props: ControlProps): ControlComponent => {
   const container = Control(props);
