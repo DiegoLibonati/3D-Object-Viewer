@@ -2,20 +2,20 @@ import type { Page } from "@/types/pages";
 
 import Control from "@/components/Control/Control";
 
-import { ObjectViewer } from "@/core/ObjectViewer";
+import { Orbita } from "@/core/Orbita";
 
 import assets from "@/assets/export";
 
-import "@/pages/ObjectViewerPage/ObjectViewerPage.css";
+import "@/pages/OrbitaPage/OrbitaPage.css";
 
-const ObjectViewerPage = (): Page => {
+const OrbitaPage = (): Page => {
   const main = document.createElement("main") as Page;
-  main.className = "object-viewer-page";
+  main.className = "orbita-page";
 
   main.innerHTML = `
     <canvas
-        class="viewer__canvas"
-        aria-label="3D object viewer"
+        class="orbita__canvas"
+        aria-label="Orbita"
     ></canvas>
 
     <div>
@@ -43,7 +43,7 @@ const ObjectViewerPage = (): Page => {
     </div>
   `;
 
-  const canvas = main.querySelector<HTMLCanvasElement>(".viewer__canvas")!;
+  const canvas = main.querySelector<HTMLCanvasElement>(".orbita__canvas")!;
   const controls = main.querySelector<HTMLDivElement>(".controls");
 
   const controlArrowLeft = Control({
@@ -59,13 +59,13 @@ const ObjectViewerPage = (): Page => {
 
   controls?.append(controlArrowLeft, controlArrowRight);
 
-  const viewer = new ObjectViewer(canvas, main);
+  const orbita = new Orbita(canvas, main);
 
   main.cleanup = (): void => {
-    viewer.dispose();
+    orbita.dispose();
   };
 
   return main;
 };
 
-export default ObjectViewerPage;
+export default OrbitaPage;

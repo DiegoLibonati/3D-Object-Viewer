@@ -12,7 +12,7 @@ import type { Page } from "@/types/pages";
 import textures from "@/constants/textures";
 import objects from "@/constants/objects";
 
-export class ObjectViewer {
+export class Orbita {
   private scene: THREE.Scene;
   private camera: THREE.PerspectiveCamera;
   private renderer: THREE.WebGLRenderer;

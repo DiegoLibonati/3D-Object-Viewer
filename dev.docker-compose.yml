@@ -1,5 +1,5 @@
 services:
-  object-viewer-client:
+  orbita-client:
     build:
       context: ./
       dockerfile: Dockerfile.development
@@ -10,8 +10,8 @@ services:
     ports:
       - 3000:3000
     networks:
-      - object-viewer-net
+      - orbita-net
     tty: true
 
 networks:
-  object-viewer-net:
+  orbita-net:

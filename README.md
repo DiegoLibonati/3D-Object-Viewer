@@ -1,4 +1,4 @@
-# 3D-Object-Viewer
+# Orbita
 
 ## Educational Purpose
 
@@ -26,7 +26,34 @@ NOTE: You have to be standing in the folder containing the: `dev.docker-compose.
 
 ## Description
 
-This page allows you to visualize objects in 3D. In addition to being able to change different properties live through a menu. You can also import models as gltf or glb to visualize them and change their properties. These properties are the position on the canvas (x,y,z), the scale: width, height or depth. You can also hide the title, change the color, metallicity and roughness. It is a 100% responsive page
+**Orbita** is a browser-based 3D object viewer built with Three.js and vanilla TypeScript. It lets you explore, inspect, and customize 3D geometry and imported models directly in the browser — no installation, no plugins, no frameworks.
+
+**Built-in geometry library**
+
+The application ships with 14 predefined Three.js geometries: Box, Cone, Capsule, Circle, Cylinder, Dodecahedron, Icosahedron, Octahedron, Plane, Ring, Sphere, Tetrahedron, Torus, and Torus Knot. You can cycle through all of them using the Arrow Left / Arrow Right keys on your keyboard, or the on-screen navigation controls. Each geometry is rendered with a physically-based metallic material and placed inside a cube-map environment to simulate realistic reflections.
+
+**GLTF / GLB model import**
+
+Beyond the built-in shapes, Orbita supports importing your own 3D models in `.glb` or `.gltf` format. Once loaded, the model is added to the navigation queue alongside the built-in geometries, so you can jump to it with the arrow keys. A modal notification confirms when the model was successfully added or alerts you if something went wrong during the load.
+
+**Live property controls**
+
+Every object in the scene exposes a real-time control panel powered by lil-gui:
+
+- **Position** — move the model along the X, Y, and Z axes independently.
+- **Scale** — resize the model on each axis individually (X, Y, Z).
+- **Color** — pick any color for the material in real time.
+- **Text visibility** — toggle the 3D floating label that displays the object name above the geometry.
+
+All changes are reflected instantly in the canvas without any page reload.
+
+**Camera and scene**
+
+The camera is orbit-controlled, meaning you can rotate around the object by clicking and dragging, zoom in and out with the scroll wheel, and pan by right-clicking. Damping is enabled to give the movement a natural, smooth feel. The scene background is a preloaded environment cube map that provides ambient lighting and reflections, making metallic materials look realistic out of the box.
+
+**Fully responsive**
+
+The canvas automatically adapts to the browser window size. Resizing the window updates the camera aspect ratio and the renderer resolution on the fly, so the scene always fills the viewport correctly regardless of the screen size or device.
 
 ## Technologies used
 
@@ -73,11 +100,7 @@ This page allows you to visualize objects in 3D. In addition to being able to ch
 
 ## Portfolio Link
 
-[`https://www.diegolibonati.com.ar/#/project/3D-Object-Viewer`](https://www.diegolibonati.com.ar/#/project/3D-Object-Viewer)
-
-## Video
-
-https://www.youtube.com/watch?v=EYpagLf3rKw&ab_channel=Die
+[`https://www.diegolibonati.com.ar/#/project/orbita`](https://www.diegolibonati.com.ar/#/project/orbita)
 
 ## Testing
 

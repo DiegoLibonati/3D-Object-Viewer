@@ -1,13 +1,13 @@
 import "@/index.css";
-import ObjectViewerPage from "@/pages/ObjectViewerPage/ObjectViewerPage";
+import OrbitaPage from "@/pages/OrbitaPage/OrbitaPage";
 
 const onInit = (): void => {
   const app = document.querySelector<HTMLDivElement>("#app");
 
   if (!app) throw new Error(`You must render a container to mount the app.`);
 
-  const objectViewerPage = ObjectViewerPage();
-  app.appendChild(objectViewerPage);
+  const orbitaPage = OrbitaPage();
+  app.appendChild(orbitaPage);
 };
 
 document.addEventListener("DOMContentLoaded", onInit);
