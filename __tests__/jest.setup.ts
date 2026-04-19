@@ -1,7 +1,5 @@
 import "@testing-library/jest-dom";
 
-import { mockAssets } from "@tests/__mocks__/assets.mock";
-
 const mockThreeSceneAdd = jest.fn();
 const mockThreeSceneRemove = jest.fn();
 const mockThreeSceneClear = jest.fn();
@@ -192,11 +190,6 @@ const mockThreeOrbitControls = jest.fn(() => ({
   enableDamping: false,
   update: mockThreeOrbitControlsUpdate,
   dispose: mockThreeOrbitControlsDispose,
-}));
-
-jest.mock("@/assets/export", () => ({
-  __esModule: true,
-  default: mockAssets,
 }));
 
 jest.mock("three", () => ({
