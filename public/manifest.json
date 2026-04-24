@@ -1,7 +1,7 @@
 {
   "name": "Orbita",
   "short_name": "Orbita",
-  "description": "Orbita is a browser-based 3D object viewer built with Three.js and vanilla TypeScript. It lets you explore, inspect, and customize 3D geometry and imported models directly in the browser — no installation, no plugins, no frameworks.",
+  "description": "Orbita is a browser-based 3D object viewer built with Three.js and vanilla TypeScript.",
   "start_url": "/",
   "display": "standalone",
   "background_color": "#ffffff",
