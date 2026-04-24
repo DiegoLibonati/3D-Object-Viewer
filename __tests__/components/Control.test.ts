@@ -60,12 +60,16 @@ describe("Control", () => {
 
     it("should set the image id to the lowercase version of the label", () => {
       renderComponent({ label: "Left" });
-      expect(document.getElementById("left")).toBeInTheDocument();
+      expect(
+        document.querySelector<HTMLImageElement>("#left")
+      ).toBeInTheDocument();
     });
 
     it("should derive the id from an uppercase label correctly", () => {
       renderComponent({ label: "Right" });
-      expect(document.getElementById("right")).toBeInTheDocument();
+      expect(
+        document.querySelector<HTMLImageElement>("#right")
+      ).toBeInTheDocument();
     });
   });
 
