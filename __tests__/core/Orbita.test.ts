@@ -95,6 +95,7 @@ describe("Orbita", () => {
   afterEach(() => {
     orbita.dispose();
     document.body.innerHTML = "";
+    jest.clearAllMocks();
   });
 
   describe("constructor", () => {

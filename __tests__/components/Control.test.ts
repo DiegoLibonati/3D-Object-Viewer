@@ -8,7 +8,6 @@ import Control from "@/components/Control/Control";
 const defaultProps: ControlProps = {
   srcImg: "/images/arrow.png",
   label: "Left",
-  className: "control--left",
 };
 
 const renderComponent = (
@@ -22,6 +21,7 @@ const renderComponent = (
 describe("Control", () => {
   afterEach(() => {
     document.body.innerHTML = "";
+    jest.clearAllMocks();
   });
 
   describe("rendering", () => {
@@ -75,8 +75,7 @@ describe("Control", () => {
 
   describe("className", () => {
     it("should include only the base control class when className is not provided", () => {
-      const element = Control({ srcImg: "/images/arrow.png", label: "Test" });
-      document.body.appendChild(element);
+      const element = renderComponent();
       expect(element).toHaveClass("control");
       expect(element).not.toHaveClass("control--left");
       expect(element).not.toHaveClass("control--right");

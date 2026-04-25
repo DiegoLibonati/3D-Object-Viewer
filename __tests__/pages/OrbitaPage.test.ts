@@ -28,6 +28,7 @@ describe("OrbitaPage", () => {
   afterEach(() => {
     page.cleanup?.();
     document.body.innerHTML = "";
+    jest.restoreAllMocks();
   });
 
   describe("rendering", () => {
