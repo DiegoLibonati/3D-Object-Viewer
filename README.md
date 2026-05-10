@@ -6,24 +6,6 @@ This project was created primarily for **educational and learning purposes**.
 While it is well-structured and could technically be used in production, it is **not intended for commercialization**.  
 The main goal is to explore and demonstrate best practices, patterns, and technologies in software development.
 
-## Getting Started without Docker
-
-1. Clone the repository
-2. Navigate to the project folder
-3. Execute: `npm install`
-4. Execute: `npm run dev`
-
-The application will open automatically at `http://localhost:3000`
-
-## Getting Started with Docker
-
-1. Clone the repository with `git clone "repository link"`
-2. Execute: `npm install` or `yarn install` in the terminal
-3. Execute: `docker-compose -f dev.docker-compose.yml build --no-cache` in the terminal
-4. Once built, you must execute the command: `docker-compose -f dev.docker-compose.yml up --force-recreate` in the terminal
-
-NOTE: You have to be standing in the folder containing the: `dev.docker-compose.yml` and you need to install `Docker Desktop` if you are in Windows.
-
 ## Description
 
 **Orbita** is a browser-based 3D object viewer built with Three.js and vanilla TypeScript. It lets you explore, inspect, and customize 3D geometry and imported models directly in the browser — no installation, no plugins, no frameworks.
@@ -67,6 +49,8 @@ The canvas automatically adapts to the browser window size. Resizing the window 
 
 ## Libraries used
 
+The stack above is wired up through the following packages:
+
 #### Dependencies
 
 ```
@@ -99,31 +83,62 @@ The canvas automatically adapts to the browser window size. Resizing the window 
 "vite": "^7.1.6"
 ```
 
-## Portfolio Link
+## Getting Started
 
-[`https://www.diegolibonati.com.ar/#/project/orbita`](https://www.diegolibonati.com.ar/#/project/orbita)
+To run Orbita locally on bare metal (no containers):
+
+1. Clone the repository
+2. Navigate to the project folder
+3. Execute: `npm install`
+4. Execute: `npm run dev`
+
+The application will open automatically at `http://localhost:3000`.
+
+> If you prefer a containerized workflow instead, jump to the [Production](#production) section for the Docker-based setup.
 
 ## Testing
+
+Once the project is set up, verify that everything works as expected by running the test suite.
 
 1. Navigate to the project folder
 2. Execute: `npm test`
 
-For coverage report:
+For a coverage report:
 
 ```bash
 npm run test:coverage
 ```
 
-## Security
+## Security Audit
 
-### npm audit
-
-Check for vulnerabilities in dependencies:
+Before shipping, audit the dependency tree for known vulnerabilities:
 
 ```bash
 npm audit
 ```
 
+## Production
+
+For a production-like or containerized environment, Orbita ships with Docker configurations for both development and production. Before deploying, make sure to run [Testing](#testing) and [Security Audit](#security-audit).
+
+> **Prerequisites:** install [Docker Desktop](https://www.docker.com/products/docker-desktop) (required on Windows). All commands must be executed from the folder containing the `dev.docker-compose.yml` and `prod.docker-compose.yml` files.
+
+### Dev
+
+1. Clone the repository with `git clone "repository link"`
+2. Execute: `npm install` or `yarn install` in the terminal
+3. Execute: `docker-compose -f dev.docker-compose.yml build --no-cache` in the terminal
+4. Once built, execute: `docker-compose -f dev.docker-compose.yml up --force-recreate` in the terminal
+
+### Prod
+
+1. Execute: `docker-compose -f prod.docker-compose.yml build --no-cache` in the terminal
+2. Once built, execute: `docker-compose -f prod.docker-compose.yml up --force-recreate` in the terminal
+
 ## Known Issues
 
 None at the moment.
+
+## Portfolio Link
+
+[`https://www.diegolibonati.com.ar/#/project/orbita`](https://www.diegolibonati.com.ar/#/project/orbita)
