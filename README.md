@@ -109,6 +109,56 @@ For a coverage report:
 npm run test:coverage
 ```
 
+## Continuous Integration
+
+The repository ships with a **GitHub Actions** pipeline defined in [`.github/workflows/ci.yml`](.github/workflows/ci.yml). It runs automatically on every `push` and `pull_request` targeting the `main` branch.
+
+### Pipeline overview
+
+```
+                      ┌─── PR or push to main ───┐
+                      ▼                          ▼
+┌──────────────────────┐  ┌──────────────────┐  ┌──────────────────┐  ┌──────────────────┐
+│   lint-and-audit     │─▶│     testing      │─▶│      build       │─▶│   build-docker   │
+│ eslint · type-check  │  │       jest       │  │   tsc + vite     │  │ dev + prod images│
+└──────────────────────┘  └──────────────────┘  └──────────────────┘  └──────────────────┘
+```
+
+### Validation jobs (run on every PR and push)
+
+1. **`lint-and-audit`** — `npm run lint` (ESLint) and `npm run type-check` (`tsc --noEmit`).
+2. **`testing`** — `npm run test` (Jest with the jsdom environment). Depends on `lint-and-audit`.
+3. **`build`** — `npm run build`, which type-checks with `tsc` and produces the Vite production bundle. Depends on `testing`.
+4. **`build-docker`** — smoke-builds both `Dockerfile.development` and `Dockerfile.production` to verify the container images compile end-to-end. Depends on `build`.
+
+Each job runs on `ubuntu-latest`, pins the Node version via [`.nvmrc`](.nvmrc) using `actions/setup-node@v4` with npm cache, and installs dependencies with `npm ci` for reproducibility. Jobs are chained with `needs:`, so a failure on any earlier stage short-circuits the rest of the pipeline.
+
+### Where the build outputs live
+
+| Output                                 | Location                     |
+| -------------------------------------- | ---------------------------- |
+| Lint, type-check, test, and build logs | **Actions** tab on GitHub    |
+| Vite production bundle (`dist/`)       | Ephemeral, inside the runner |
+| Docker images (`app:dev`, `app:prod`)  | Ephemeral, inside the runner |
+
+### Running the same checks locally
+
+```bash
+# lint-and-audit
+npm run lint
+npm run type-check
+
+# testing
+npm test
+
+# build
+npm run build
+
+# build-docker
+docker build -f Dockerfile.development -t app:dev .
+docker build -f Dockerfile.production -t app:prod .
+```
+
 ## Security Audit
 
 Before shipping, audit the dependency tree for known vulnerabilities:
