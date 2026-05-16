@@ -71,6 +71,20 @@ describe("Control", () => {
         document.querySelector<HTMLImageElement>("#right")
       ).toBeInTheDocument();
     });
+
+    it("should apply the control__label class to the heading", () => {
+      renderComponent();
+      expect(screen.getByRole("heading", { level: 2 })).toHaveClass(
+        "control__label"
+      );
+    });
+
+    it("should apply the control__image class to the image", () => {
+      renderComponent({ label: "Left" });
+      expect(screen.getByRole("img", { name: "Left" })).toHaveClass(
+        "control__image"
+      );
+    });
   });
 
   describe("className", () => {

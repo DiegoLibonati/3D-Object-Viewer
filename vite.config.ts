@@ -1,8 +1,7 @@
 import path from "path";
 import { defineConfig } from "vite";
-import { fileURLToPath } from "url";
 
-const __dirname = path.dirname(fileURLToPath(import.meta.url));
+import type { UserConfig } from "vite";
 
 export default defineConfig({
   resolve: {
@@ -29,4 +28,4 @@ export default defineConfig({
     minify: "esbuild",
     target: "ES2022",
   },
-});
+}) as UserConfig;

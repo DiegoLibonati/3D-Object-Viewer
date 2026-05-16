@@ -92,6 +92,11 @@ describe("OrbitaPage", () => {
     it("should render the browse label linked to the file input", () => {
       expect(screen.getByText("Browse a Model")).toBeInTheDocument();
     });
+
+    it("should render the file input as hidden", () => {
+      const input = page.querySelector<HTMLInputElement>(".upload__input");
+      expect(input).toHaveAttribute("hidden");
+    });
   });
 
   describe("cleanup", () => {

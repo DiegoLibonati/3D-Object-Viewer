@@ -4,7 +4,7 @@ import Control from "@/components/Control/Control";
 
 import { Orbita } from "@/core/Orbita";
 
-import assets from "@/assets/export";
+import assets from "@/assets/index";
 
 import "@/pages/OrbitaPage/OrbitaPage.css";
 

@@ -4,11 +4,14 @@ import * as THREE from "three";
 import { OrbitControls } from "three/examples/jsm/controls/OrbitControls.js";
 import { GUI } from "lil-gui";
 import { GLTFLoader } from "three/examples/jsm/loaders/GLTFLoader.js";
+import { FontLoader } from "three/examples/jsm/loaders/FontLoader.js";
 import { TextGeometry } from "three/examples/jsm/geometries/TextGeometry.js";
 
 import type { Page } from "@/types/pages";
 
 import { Orbita } from "@/core/Orbita";
+
+import objects from "@/constants/objects";
 
 interface MockScene {
   add: jest.Mock;
@@ -119,6 +122,23 @@ describe("Orbita", () => {
       window.dispatchEvent(new KeyboardEvent("keydown", { key: "ArrowRight" }));
       expect(guiInstance.addFolder).toHaveBeenCalled();
     });
+
+    it("should expose the canvas as a public property", () => {
+      expect(orbita.canvas).toBe(canvas);
+    });
+
+    it("should call renderCurrentObject when the font loads successfully", () => {
+      (FontLoader as unknown as jest.Mock).mockImplementationOnce(() => ({
+        load: jest.fn((_path: string, cb: (font: object) => void) => {
+          cb({});
+        }),
+      }));
+
+      const orbitaWithFont = new Orbita(canvas, container);
+      orbitaWithFont.dispose();
+
+      expect(TextGeometry as unknown as jest.Mock).toHaveBeenCalled();
+    });
   });
 
   describe("dispose", () => {
@@ -161,6 +181,49 @@ describe("Orbita", () => {
       mockCancelAnimationFrame.mockClear();
       orbita.dispose();
       expect(mockCancelAnimationFrame).not.toHaveBeenCalled();
+    });
+
+    it("should remove the inputFile change event listener", () => {
+      const inputFile =
+        container.querySelector<HTMLInputElement>(".upload__input")!;
+      const removeListenerSpy = jest.spyOn(inputFile, "removeEventListener");
+      orbita.dispose();
+      expect(removeListenerSpy).toHaveBeenCalledWith(
+        "change",
+        expect.any(Function)
+      );
+    });
+
+    it("should remove the buttonModal click event listener", () => {
+      const buttonModal =
+        container.querySelector<HTMLButtonElement>(".alert__button")!;
+      const removeListenerSpy = jest.spyOn(buttonModal, "removeEventListener");
+      orbita.dispose();
+      expect(removeListenerSpy).toHaveBeenCalledWith(
+        "click",
+        expect.any(Function)
+      );
+    });
+  });
+
+  describe("when optional DOM elements are absent from the container", () => {
+    let orbitaMinimal: Orbita;
+
+    beforeEach(() => {
+      const canvasMinimal = document.createElement("canvas");
+      const containerMinimal = document.createElement("main") as Page;
+      document.body.appendChild(containerMinimal);
+      orbitaMinimal = new Orbita(canvasMinimal, containerMinimal);
+    });
+
+    afterEach(() => {
+      orbitaMinimal.dispose();
+    });
+
+    it("should not throw on dispose when inputFile and buttonModal are absent", () => {
+      expect(() => {
+        orbitaMinimal.dispose();
+      }).not.toThrow();
     });
   });
 
@@ -300,6 +363,182 @@ describe("Orbita", () => {
       expect(
         container.querySelector<HTMLHeadingElement>(".alert__title")!.innerHTML
       ).toContain("Error loading model");
+    });
+
+    it("should revoke the object URL after a successful model load", async () => {
+      const mockFile = new File(["content"], "model.glb", {
+        type: "model/gltf-binary",
+      });
+      const mockGltf = { scene: { children: [{}] } };
+
+      (GLTFLoader as unknown as jest.Mock).mockImplementationOnce(() => ({
+        loadAsync: jest.fn().mockResolvedValue(mockGltf),
+      }));
+
+      dispatchFileChange(mockFile);
+
+      await waitFor(() => {
+        expect(URL.revokeObjectURL).toHaveBeenCalledWith("blob:mock");
+      });
+    });
+
+    it("should revoke the object URL after a failed model load", async () => {
+      const mockFile = new File(["content"], "bad.glb", {
+        type: "model/gltf-binary",
+      });
+
+      (GLTFLoader as unknown as jest.Mock).mockImplementationOnce(() => ({
+        loadAsync: jest.fn().mockRejectedValue(new Error("Load failed")),
+      }));
+
+      dispatchFileChange(mockFile);
+
+      await waitFor(() => {
+        expect(URL.revokeObjectURL).toHaveBeenCalledWith("blob:mock");
+      });
+    });
+  });
+
+  describe("dispose - scene traversal", () => {
+    const meshCtor = (): { prototype: object } => THREE.Mesh;
+
+    const createMeshLike = (opts: {
+      geometry?: { dispose: jest.Mock } | null;
+      material?: { dispose: jest.Mock } | { dispose: jest.Mock }[] | null;
+    }): THREE.Object3D =>
+      Object.assign(
+        Object.create(meshCtor().prototype) as THREE.Object3D,
+        opts
+      );
+
+    it("should skip non-Mesh objects during scene traversal", () => {
+      sceneInstance.traverse.mockImplementationOnce(
+        (cb: (o: THREE.Object3D) => void) => {
+          cb({} as THREE.Object3D);
+        }
+      );
+      expect(() => {
+        orbita.dispose();
+      }).not.toThrow();
+    });
+
+    it("should call geometry.dispose for a Mesh with disposable geometry", () => {
+      const mockGeometryDispose = jest.fn();
+      sceneInstance.traverse.mockImplementationOnce(
+        (cb: (o: THREE.Object3D) => void) => {
+          cb(
+            createMeshLike({
+              geometry: { dispose: mockGeometryDispose },
+              material: null,
+            })
+          );
+        }
+      );
+      orbita.dispose();
+      expect(mockGeometryDispose).toHaveBeenCalled();
+    });
+
+    it("should not call geometry.dispose for a Mesh with null geometry", () => {
+      const mockGeometryDispose = jest.fn();
+      sceneInstance.traverse.mockImplementationOnce(
+        (cb: (o: THREE.Object3D) => void) => {
+          cb(createMeshLike({ geometry: null, material: null }));
+        }
+      );
+      orbita.dispose();
+      expect(mockGeometryDispose).not.toHaveBeenCalled();
+    });
+
+    it("should call material.dispose for a Mesh with a single material", () => {
+      const mockMaterialDispose = jest.fn();
+      sceneInstance.traverse.mockImplementationOnce(
+        (cb: (o: THREE.Object3D) => void) => {
+          cb(createMeshLike({ material: { dispose: mockMaterialDispose } }));
+        }
+      );
+      orbita.dispose();
+      expect(mockMaterialDispose).toHaveBeenCalled();
+    });
+
+    it("should call dispose on each material in a material array", () => {
+      const mockMat1Dispose = jest.fn();
+      const mockMat2Dispose = jest.fn();
+      sceneInstance.traverse.mockImplementationOnce(
+        (cb: (o: THREE.Object3D) => void) => {
+          cb(
+            createMeshLike({
+              material: [
+                { dispose: mockMat1Dispose },
+                { dispose: mockMat2Dispose },
+              ],
+            })
+          );
+        }
+      );
+      orbita.dispose();
+      expect(mockMat1Dispose).toHaveBeenCalled();
+      expect(mockMat2Dispose).toHaveBeenCalled();
+    });
+
+    it("should not throw for a Mesh with null material", () => {
+      sceneInstance.traverse.mockImplementationOnce(
+        (cb: (o: THREE.Object3D) => void) => {
+          cb(createMeshLike({ geometry: null, material: null }));
+        }
+      );
+      expect(() => {
+        orbita.dispose();
+      }).not.toThrow();
+    });
+  });
+
+  describe("renderCurrentObject - mesh traversal", () => {
+    const meshCtor = (): { prototype: object } => THREE.Mesh;
+
+    it("should not throw when a Mesh child is encountered during traversal", () => {
+      const meshChild = Object.create(meshCtor().prototype) as THREE.Object3D;
+      Object.assign(meshChild, { material: null });
+
+      jest
+        .spyOn(objects[1]!.mesh, "traverse")
+        .mockImplementationOnce((cb: (o: THREE.Object3D) => void) => {
+          cb(meshChild);
+        });
+
+      expect(() => {
+        window.dispatchEvent(
+          new KeyboardEvent("keydown", { key: "ArrowRight" })
+        );
+      }).not.toThrow();
+    });
+
+    it("should not throw when a non-Mesh child is encountered during traversal", () => {
+      jest
+        .spyOn(objects[1]!.mesh, "traverse")
+        .mockImplementationOnce((cb: (o: THREE.Object3D) => void) => {
+          cb({} as THREE.Object3D);
+        });
+
+      expect(() => {
+        window.dispatchEvent(
+          new KeyboardEvent("keydown", { key: "ArrowRight" })
+        );
+      }).not.toThrow();
+    });
+
+    it("should call addColor when the Mesh child has no existing color controller", () => {
+      const meshChild = Object.create(meshCtor().prototype) as THREE.Object3D;
+      Object.assign(meshChild, { material: null });
+
+      jest
+        .spyOn(objects[1]!.mesh, "traverse")
+        .mockImplementationOnce((cb: (o: THREE.Object3D) => void) => {
+          cb(meshChild);
+        });
+
+      window.dispatchEvent(new KeyboardEvent("keydown", { key: "ArrowRight" }));
+
+      expect(guiInstance.addFolder).toHaveBeenCalled();
     });
   });
 });

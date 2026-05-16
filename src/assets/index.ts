@@ -1,9 +1,7 @@
 import ArrowPng from "@/assets/images/arrow.png";
 
-const assets = {
+export default {
   images: {
     ArrowPng: ArrowPng,
   },
 };
-
-export default assets;
